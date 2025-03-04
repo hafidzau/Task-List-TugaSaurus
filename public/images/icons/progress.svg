@@ -1,0 +1,11 @@
+<svg viewBox="0 0 100 100">
+  <!-- Wings -->
+  <path d="M20 40 Q40 30 60 40 Q40 45 20 40" fill="#2C3E50" />
+  <path d="M60 40 Q80 30 90 40 Q80 45 60 40" fill="#2C3E50" />
+  <!-- Body -->
+  <path d="M45 40 Q50 38 55 40 L60 45 Q55 47 50 45 L45 40" fill="#2C3E50" />
+  <!-- Head -->
+  <path d="M60 43 L70 40 L72 42 L65 45" fill="#2C3E50" />
+  <!-- Eye -->
+  <circle cx="68" cy="41" r="1" fill="#E67E22" />
+</svg>

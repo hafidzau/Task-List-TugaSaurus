@@ -100,7 +100,7 @@
                         <div class="bg-gray-100 p-4 rounded-lg task-card cursor-pointer" 
                         onclick="showTaskDetails({{ $task->id }})"
                         data-priority="{{ $task->priority }}"
-                        style="background-color: {{ getPriorityColor($task->priority) }}">
+                        {{-- style="background-color: {{ getPriorityColor($task->priority) }}"> --}}
                        <div class="flex justify-between items-center">
                            <span class="font-medium">{{ $task->title }}</span>
                            <div class="flex items-center">

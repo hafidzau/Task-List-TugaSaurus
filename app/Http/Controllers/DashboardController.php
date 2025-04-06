@@ -17,12 +17,14 @@ class DashboardController extends Controller
         $recentTasks = Task::where('user_id', Auth::id())
             ->whereDate('deadline', $today)
             ->orderBy('deadline')
+            ->limit(5)
             ->get();
 
         // Ambil tugas mendatang (setelah hari ini)
         $futureTasks = Task::where('user_id', Auth::id())
             ->whereDate('deadline', '>', $today)
             ->orderBy('deadline')
+            ->limit(5)
             ->get();
 
         // Hitung statistik

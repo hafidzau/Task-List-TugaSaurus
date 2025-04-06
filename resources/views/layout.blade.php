@@ -10,8 +10,11 @@
     @yield('styles')
 </head>
 <body>
+    <x:navbar></x:navbar>
+
     @yield('content')
 
     @yield('scripts')
+    <x:footer></x:footer>
 </body>
 </html>

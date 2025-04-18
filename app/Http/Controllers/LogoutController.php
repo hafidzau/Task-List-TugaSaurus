@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -6,15 +7,14 @@ use Illuminate\Support\Facades\Auth;
 
 class LogoutController extends Controller
 {
-    // 🟢 Logout dengan Session-Based Authentication
     public function logout(Request $request)
     {
-        Auth::logout(); // Hapus session
+        Auth::logout();
 
-        // Hapus semua session untuk keamanan
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return response()->json(['message' => 'Logout successful']);
+        // ✅ Redirect ke halaman login
+        return redirect()->route('home')->with('success', 'You have been logged out.');
     }
 }

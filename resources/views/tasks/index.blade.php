@@ -3,34 +3,6 @@
 
 @section('content')
 <div class="container mx-auto p-6">
-    <!-- Header with improved spacing and visual hierarchy -->
-    <div class="flex flex-col md:flex-row items-start md:items-center justify-between mb-8">
-        <h1 class="text-3xl font-bold text-green-700 flex items-center gap-2 mb-4 md:mb-0">
-            <svg class="w-8 h-8" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M17 9C17 12.87 13.87 16 10 16C6.13 16 3 12.87 3 9C3 5.13 6.13 2 10 2" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 2C15.87 2 19 5.13 19 9" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3 3"/>
-                <path d="M12 16V22L14 20" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M12 22L10 20" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21 16V22" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                <path d="M21 16C19.9 16 19 16.9 19 18C19 19.1 19.9 20 21 20" stroke="#15803d" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Tugasaurus
-        </h1>
-        <div class="flex gap-3">
-            <a href="/tasks" class="text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-200 flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-                </svg>
-                Daftar Tugas
-            </a>
-            <a href="/logout" class="text-gray-700 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 transition-all duration-200 flex items-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
-                </svg>
-                Logout
-            </a>
-        </div>
-    </div>
 
     <!-- Welcome message with date -->
     <div class="bg-gradient-to-r from-green-50 to-teal-50 rounded-xl p-6 mb-8 shadow-sm border border-green-100">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -17,12 +18,13 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'usernamename' => $request->username, // Perbaiki field yang diambil
+            'username' => $request->username, // ✅ perbaiki nama field
             'email' => $request->email,
-            'password' => Hash::make($request->password), // Gunakan Hash
+            'password' => Hash::make($request->password),
         ]);
 
-        return response()->json(['message' => 'User registered successfully!', 'user' => $user], 201);
+        // ✅ redirect ke login page setelah berhasil register
+        return redirect()->route('login')->with('success', 'Registration successful! Please log in.');
     }
 
     public function login(Request $request)
@@ -32,13 +34,13 @@ class UserController extends Controller
             'password' => 'required|string',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        if (Auth::attempt($request->only('email', 'password'))) {
+            $request->session()->regenerate();
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Login successful!', 'user' => $user]);
+            // ✅ redirect ke dashboard setelah login
+            return redirect()->route('dashboard')->with('success', 'Login successful!');
         }
 
-        return response()->json(['error' => 'Invalid credentials'], 401);
+        return back()->with('error', 'Invalid credentials.');
     }
 }
-

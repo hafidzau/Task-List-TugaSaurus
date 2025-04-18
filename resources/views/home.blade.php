@@ -1,213 +1,63 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tugasaurus - Your Friendly Task Manager</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+@extends('layout') {{-- atau sesuai nama layout kamu --}}
 
-        body {
-            background-color: #f0f2f5;
-        }
+@section('title', 'Welcome to Tugasaurus')
 
-        .navbar {
-            background-color: white;
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
+@section('content')
+    {{-- tempel kode landing page dari sebelumnya di sini --}}
+    <!-- resources/views/landing.blade.php -->
+<section class="mt-24 px-6 py-12 text-center bg-green-50">
+    <h1 class="text-4xl md:text-5xl font-bold text-green-700 mb-4" data-aos="fade-down">
+        Manage Your Tasks with Dino-mite Style! 🦕
+    </h1>
+    <p class="text-lg text-green-600 mb-8" data-aos="fade-up">
+        Tugasaurus makes task management fun and efficient with our friendly dinosaur companions
+    </p>
+</section>
 
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #4a90e2;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            border: none;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .btn-login {
-            background-color: transparent;
-            color: #4a90e2;
-            border: 2px solid #4a90e2;
-        }
-
-        .btn-register {
-            background-color: #4a90e2;
-            color: white;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-
-        .hero {
-            margin-top: 80px;
-            padding: 4rem 2rem;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3rem;
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: #7f8c8d;
-            margin-bottom: 2rem;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .feature-card {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 20px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s ease;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .feature-card img {
-            width: 200px;
-            height: 200px;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            color: #2c3e50;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card p {
-            color: #7f8c8d;
-        }
-
-        .cta {
-            text-align: center;
-            padding: 4rem 2rem;
-            background-color: #4a90e2;
-            color: white;
-            margin-top: 2rem;
-        }
-
-        .cta h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .cta p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-
-        .btn-cta {
-            background-color: white;
-            color: #4a90e2;
-            font-size: 1.2rem;
-            padding: 1rem 3rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2rem;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <nav class="navbar">
-        <div class="logo">
-            <img src="path/to/logo.png" alt="Tugasaurus Logo">
-        </div>        
-        <div class="nav-buttons">
-            <a href="{{ route('login') }}" class="btn btn-login">Login</a>
-            <a href="{{ route('register') }}" class="btn btn-register">Start for Free</a>
-        </div>
-        
-    </nav>
-
-    <section class="hero">
-        <h1>Manage Your Tasks with Dino-mite Style! 🦕</h1>
-        <p>Tugasaurus makes task management fun and efficient with our friendly dinosaur companions</p>
-        <img src="/api/placeholder/400/300" alt="Dino mascot" data-aos="fade-up">
-    </section>
-
-    <div class="features">
-        <div class="feature-card" data-aos="fade-up">
-            <img src="/api/placeholder/200/200" alt="Task organization">
-            <h3>Smart Task Organization</h3>
-            <p>Organize your tasks efficiently with our intuitive dinosaur-themed interface</p>
-        </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
-            <img src="/api/placeholder/200/200" alt="Collaboration">
-            <h3>Team Collaboration</h3>
-            <p>Work together with your team members like a pack of friendly velociraptors</p>
-        </div>
-        <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
-            <img src="/api/placeholder/200/200" alt="Reminders">
-            <h3>Smart Reminders</h3>
-            <p>Never miss a deadline with our T-Rex reminder system that roars when tasks are due</p>
-        </div>
+<section class="grid md:grid-cols-3 gap-6 px-6 py-12 max-w-7xl mx-auto">
+    <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up">
+        <img src="/api/placeholder/200/200" alt="Task organization" class="mx-auto mb-4">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Smart Task Organization</h3>
+        <p class="text-green-600">Organize your tasks efficiently with our intuitive dinosaur-themed interface</p>
     </div>
+    <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-delay="100">
+        <img src="/api/placeholder/200/200" alt="Productivity" class="mx-auto mb-4">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Dino Productivity</h3>
+        <p class="text-green-600">Boost your task power and stay focused like a T-Rex chasing a goal!</p>
+    </div>
+    
+    <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-delay="200">
+        <img src="/api/placeholder/200/200" alt="Reminders" class="mx-auto mb-4">
+        <h3 class="text-xl font-semibold text-green-700 mb-2">Smart Reminders</h3>
+        <p class="text-green-600">Never miss a deadline with our T-Rex reminder system that roars when tasks are due</p>
+    </div>
+</section>
 
-    <section class="cta">
-        <h2>Ready to Start Your Prehistoric Adventure?</h2>
-        <p>Join thousands of users who are already managing their tasks with Tugasaurus</p>
-        <button class="btn btn-cta">Start for Free</button>
-    </section>
+<section class="bg-green-600 text-white text-center py-16 px-6" data-aos="fade-up">
+    <h2 class="text-3xl font-bold mb-4">Ready to Start Your Prehistoric Adventure?</h2>
+    <p class="text-lg mb-8">Join thousands of users who are already managing their tasks with Tugasaurus</p>
+    <a href="{{ route('register') }}">
+        <button
+            class="text-green-600 bg-white hover:bg-green-100 font-bold py-3 px-6 rounded-full shadow-lg transition duration-300"
+            data-ripple-light="true">
+            Start for Free
+        </button>
+    </a>
+</section>
 
-    <script>
-        AOS.init({
-            duration: 1000,
-            once: true
-        });
-    </script>
-</body>
-</html>
+@endsection
+@section('scripts')
+    {{-- taruh <script> AOS, Flowbite, dll di sini --}}
+    <!-- Script AOS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+    AOS.init({
+        duration: 1000,
+        once: true,
+        easing: 'ease-in-out'
+    });
+</script>
+
+<!-- Flowbite (pastikan sudah di-include di layout Blade kamu) -->
+<script src="https://unpkg.com/flowbite@1.6.5/dist/flowbite.min.js"></script>
+@endsection

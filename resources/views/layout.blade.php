@@ -7,14 +7,20 @@
     <title>@yield('title', 'Tugasaurus')</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
+    <script src="https://unpkg.com/lucide@latest"></script>
     @yield('styles')
 </head>
 <body>
-    <x:navbar></x:navbar>
+
+    <x:layout.navbar></x:layout.navbar>
+    <x:layout.alert></x:layout.alert>
+
 
     @yield('content')
 
     @yield('scripts')
-    <x:footer></x:footer>
+
+
+    <x:layout.footer></x:layout.footer>
 </body>
 </html>

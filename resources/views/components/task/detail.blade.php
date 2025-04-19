@@ -33,12 +33,12 @@
                 <p>{{ $task->deadline ? date('d M Y', strtotime($task->deadline)) : '-' }}</p>
             </div>
             <div>
-                <p class="text-gray-600 font-semibold mb-1">Waktu Deadline</p>
+                {{-- <p class="text-gray-600 font-semibold mb-1">Waktu Deadline</p>
                 <p>
                     {{ ($task->deadline && date('H:i', strtotime($task->deadline)) != '00:00') 
                         ? date('H:i', strtotime($task->deadline)) 
                         : 'Tidak ada jam deadline' }}
-                </p>
+                </p> --}}
             </div>
             <div>
                 <p class="text-gray-600 font-semibold mb-1">Prioritas</p>
@@ -56,9 +56,10 @@
             <div>
                 <p class="text-gray-600 font-semibold mb-1">Status</p>
                 <span class="inline-block px-3 py-1 rounded-full text-sm font-bold 
-                    {{ $task->completed ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600' }}">
-                    {{ $task->completed ? 'Selesai' : 'Belum Selesai' }}
+                    {{ $task->status == 'completed' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600' }}">
+                    {{ $task->status == 'completed' ? 'Selesai' : 'Belum Selesai' }}
                 </span>
+
             </div>
         </div>
 

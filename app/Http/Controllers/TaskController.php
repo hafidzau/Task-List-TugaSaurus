@@ -7,102 +7,142 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
+
 class TaskController extends Controller
 {
-    // 🔹 Menampilkan semua tugas
-    public function index()
-    {
-        $tasks = Task::where('user_id', Auth::id())
-            ->orderBy('deadline', 'asc')
-            ->get();
+        // 🔹 Menampilkan semua tugas
+        public function index()
+        {
+            $tasks = Task::where('user_id', Auth::id())
+                ->orderBy('deadline', 'asc')
+                ->get();
 
-        return view('tasks.index', compact('tasks'));
-    }
+            return view('tasks.index', compact('tasks'));
+        }
 
-    // 🔹 Menampilkan tugas untuk hari ini
-    public function today()
-    {
-        $tasks = Task::where('user_id', Auth::id())
-            ->whereDate('deadline', now())
-            ->get();
+        // 🔹 Menampilkan tugas untuk hari ini
+        public function today()
+        {
+            $tasks = Task::where('user_id', Auth::id())
+                ->whereDate('deadline', now())
+                ->get();
 
-        return view('tasks.today', [
-            'tasks' => $tasks,
-            'totalTugas' => $tasks->count(),
-            'belumSelesai' => $tasks->where('status', 'pending')->count(),
-            'selesai' => $tasks->where('status', 'completed')->count(),
-            'prioritasTinggi' => $tasks->where('priority', 'high')->count(),
-        ]);
-    }
+            return view('tasks.today', [
+                'tasks' => $tasks,
+                'totalTugas' => $tasks->count(),
+                'belumSelesai' => $tasks->where('status', 'pending')->count(),
+                'selesai' => $tasks->where('status', 'completed')->count(),
+                'prioritasTinggi' => $tasks->where('priority', 'high')->count(),
+            ]);
+        }
 
-    // 🔹 Menampilkan tugas berdasarkan tanggal dari kalender
-    public function showByDate($tanggal)
-    {
-        $tasks = Task::where('user_id', Auth::id())
-            ->whereDate('deadline', $tanggal)
-            ->get();
+        // 🔹 Menampilkan tugas berdasarkan tanggal dari kalender
+        public function showByDate($date)
+        {
+            $tasks = Task::where('user_id', Auth::id())
+                ->whereDate('deadline', $date)
+                ->get();
 
-        return view('tasks.date', compact('tasks', 'tanggal'));
-    }
+            return view('tasks.date', compact('tasks', 'date'));
+        }
 
-    // 🔹 Menyimpan tugas baru
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'deadline' => 'required|date',
-        ]);
+        // 🔹 Menyimpan tugas baru
+        public function store(Request $request)
+        {
+            // Tambahkan validasi untuk time_start, time_end, dan start_date
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'priority' => 'required|in:low,medium,high',
+                'deadline' => 'required|date',
+                'start_date' => 'nullable|date', // Menambahkan validasi untuk start_date
+                'time_start' => 'nullable|date_format:H:i', // Menambahkan validasi untuk time_start
+                'time_end' => 'nullable|date_format:H:i', // Menambahkan validasi untuk time_end
+            ]);
 
-        Task::create([
-            'user_id' => Auth::id(),
-            'title' => $validated['title'],
-            'description' => $validated['description'],
-            'priority' => $validated['priority'],
-            'deadline' => $validated['deadline'],
-            'status' => 'pending',
-        ]);
+            // Menyimpan data ke database termasuk time_start, time_end, dan start_date
+            Task::create([
+                'user_id' => Auth::id(),
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'priority' => $validated['priority'],
+                'deadline' => $validated['deadline'],
+                'start_date' => $validated['start_date'] ?? null, // Jika tidak ada start_date, akan null
+                'time_start' => $validated['time_start'] ?? null, // Jika tidak ada time_start, akan null
+                'time_end' => $validated['time_end'] ?? null, // Jika tidak ada time_end, akan null
+                'status' => 'pending',
+            ]);
 
-        return redirect()->back()->with('success', 'Tugas berhasil ditambahkan!');
-    }
+            return redirect()->back()->with('success', 'Tugas berhasil ditambahkan!');
+        }
 
-    // 🔹 Menandai tugas sebagai selesai/belum selesai
-    public function complete($id)
-    {
-        $task = Task::where('user_id', Auth::id())->findOrFail($id);
-        $task->status = $task->status === 'completed' ? 'pending' : 'completed';
-        $task->save();
 
-        return redirect()->back()->with('success', 'Status tugas diperbarui!');
-    }
+        // 🔹 Menandai tugas sebagai selesai/belum selesai
+        public function complete($id)
+        {
+            $task = Task::where('user_id', Auth::id())->findOrFail($id);
+            $task->status = $task->status === 'completed' ? 'pending' : 'completed';
+            $task->save();
 
-    // 🔹 Mengupdate tugas
-    public function update(Request $request, $id)
-    {
-        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+            return redirect()->back()->with('success', 'Status tugas diperbarui!');
+        }
 
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'deadline' => 'required|date',
-            'status' => 'required|in:pending,completed',
-        ]);
+        // 🔹 Mengupdate tugas
+        public function update(Request $request, $id)
+        {
+            $validated = $request->validate([
+                'title' => 'required|string|max:255',
+                'description' => 'nullable|string',
+                'priority' => 'required|in:low,medium,high',
+                'deadline' => 'required|date',
+                'time_start' => 'nullable|date_format:H:i',
+                'time_end' => 'nullable|date_format:H:i',
+                'status' => 'required|in:pending,completed'
+            ]);
 
-        $task->update($validated);
+            $task = Task::findOrFail($id);
 
-        return redirect()->back()->with('success', 'Tugas berhasil diperbarui!');
-    }
+            $task->update([
+                'title' => $validated['title'],
+                'description' => $validated['description'],
+                'priority' => $validated['priority'],
+                'deadline' => $validated['deadline'],
+                'time_start' => $validated['time_start'] ?? null,
+                'time_end' => $validated['time_end'] ?? null,
+                'status' => $validated['status']
+            ]);
 
-    // 🔹 Menghapus tugas
-    public function destroy($id)
-    {
-        $task = Task::where('user_id', Auth::id())->findOrFail($id);
-        $task->delete();
+            $redirectUrl = $request->input('redirect') ?? route('tasks.index');
 
-        return redirect()->back()->with('success', 'Tugas berhasil dihapus!');
-    }
+            // Redirect + no cache (opsional untuk browser yang bandel)
+            return redirect($redirectUrl)->with([
+                'success' => 'Tugas berhasil diperbarui!',
+                'cache_buster' => now()->timestamp,
+            ]);
+        }
+
+
+
+
+        // 🔹 Menampilkan form edit tugas
+        public function edit($id)
+        {
+            $task = Task::where('user_id', Auth::id())->findOrFail($id);
+            return view('tasks.edit', compact('task'));
+
+            
+        }
+
+
+        // 🔹 Menghapus tugas
+        public function destroy($id)
+        {
+            $task = Task::where('user_id', Auth::id())->findOrFail($id);
+            $task->delete();
+
+            return redirect()->back()->with('success', 'Tugas berhasil dihapus!');
+        }
+    
 
     
 

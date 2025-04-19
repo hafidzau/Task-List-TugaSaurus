@@ -15,8 +15,14 @@ class Task extends Model
         'priority',
         'status',
         'deadline',
+        'start_date',
+        'time_start',
+        'time_end',
+        'repeat_interval',
         'user_id'
     ];
+    
+    
 
     protected $attributes = [
         'status' => 'pending',

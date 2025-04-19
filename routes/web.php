@@ -23,9 +23,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/tasks/{id}', [TaskController::class, 'update'])->name('tasks.update'); // Update task
     Route::patch('/tasks/{id}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
     Route::delete('/tasks/{id}', [TaskController::class, 'destroy'])->name('tasks.destroy'); // Hapus task
-    // Tambahan route jika diperlukan:
-Route::get('/today', [TaskController::class, 'today'])->name('tasks.today');
-Route::get('/tasks/date/{date}', [TaskController::class, 'showByDate'])->name('tasks.date');
+    Route::get('/today', [TaskController::class, 'today'])->name('tasks.today');
+    Route::get('/tasks/date/{date}', [TaskController::class, 'showByDate'])->name('tasks.date');
 
 });
 

@@ -8,33 +8,41 @@ use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
-    public function index (){
-        return view('auth.login',[
-            'title'=>'login'
+    public function index()
+    {
+        return view('auth.login', [
+            'title' => 'Login'
         ]);
     }
+
     public function login(Request $request)
     {
-        $validated = $request->validate([
-            'identifier' => 'required|string', // Bisa email atau username
+        // Validasi input
+        $request->validate([
+            'email' => 'required|string',
             'password' => 'required|string',
         ]);
 
-        // Tentukan apakah user login pakai email atau username
-        $fieldType = filter_var($validated['identifier'], FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        // Tentukan apakah input adalah email atau username
+        $loginField = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
-        // Coba login
-        if (Auth::attempt([$fieldType => $validated['identifier'], 'password' => $validated['password']])) {
-            $request->session()->regenerate(); // Regenerate session ID untuk keamanan
+        // Coba login dengan data yang ada
+        $credentials = [
+            $loginField => $request->email,
+            'password' => $request->password
+        ];
 
-            return response()->json([
-                'message' => 'Login successful',
-                'user' => Auth::user(),
-            ]);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Redirect ke halaman dashboard jika berhasil login
+            return redirect()->intended('dashboard');
         }
 
-        throw ValidationException::withMessages([
-            'identifier' => ['The provided credentials are incorrect.'],
-        ]);
+        // Jika login gagal, kembalikan ke halaman sebelumnya dengan error
+        return back()->withErrors([
+            'email' => filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'Invalid email or password' : null,
+            'username' => !filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'Invalid username or password' : null
+        ])->withInput();
     }
 }

@@ -74,9 +74,9 @@
                 <label for="filter" class="text-sm font-medium text-gray-700">Filter:</label>
                 <select id="filter"
                     class="border-gray-300 rounded-md text-sm p-1.5 shadow-sm focus:ring-yellow-400 focus:border-yellow-400 transition-all"
-                    onchange="updateCalendar()">
-                    <option value="date">Berdasarkan Tanggal</option>
-                    <option value="task">Berdasarkan Tugas</option>
+                    onchange="location.href='?filter=' + this.value">
+                    <option value="date" {{ request('filter') === 'date' ? 'selected' : '' }}>Berdasarkan Tanggal</option>
+                    <option value="task" {{ request('filter') === 'task' ? 'selected' : '' }}>Berdasarkan Tugas</option>
                 </select>
             </div>
         
@@ -84,17 +84,20 @@
                 @php
                     $today = now();
                     $daysToShow = 7;
-                    $taskDates = $futureTasks->pluck('deadline')->unique()->sort();
-                    $filteredDates = request('filter') === 'task'
+                    $taskDates = $futureTasks?->pluck('deadline')->map(fn($d) => \Carbon\Carbon::parse($d)->format('Y-m-d'))->unique()->sort();
+        
+                    $filter = request('filter') ?? 'date';
+                    $filteredDates = $filter === 'task'
                         ? $taskDates->take($daysToShow)
                         : collect(range(0, $daysToShow - 1))->map(fn($i) => $today->copy()->addDays($i)->format('Y-m-d'));
                 @endphp
         
                 @foreach ($filteredDates as $date)
                     @php
-                        $taskOnDate = $futureTasks->where('deadline', $date);
+                        $taskOnDate = $futureTasks->filter(fn($task) => \Carbon\Carbon::parse($task->deadline)->format('Y-m-d') === $date);
+        
                         $priorityClass = 'bg-gray-100 text-gray-700';
-                        if (!$taskOnDate->isEmpty()) {
+                        if ($taskOnDate->isNotEmpty()) {
                             $priorities = $taskOnDate->pluck('priority')->map(fn($p) => match ($p) {
                                 'urgent' => 4,
                                 'high' => 3,
@@ -114,14 +117,16 @@
                     @endphp
         
                     <div class="border rounded-xl p-3 h-20 flex flex-col items-center justify-center text-sm font-medium {{ $priorityClass }} transition-all duration-200">
-                        <span class="text-base font-semibold">{{ date('d', strtotime($date)) }}</span>
-                        @if (!$taskOnDate->isEmpty())
+                        <span class="text-base font-semibold">{{ \Carbon\Carbon::parse($date)->format('d') }}</span>
+                        @if ($taskOnDate->isNotEmpty())
                             <span class="text-xs">{{ $taskOnDate->count() }} Tugas</span>
                         @endif
                     </div>
                 @endforeach
             </div>
         </div>
+        
+        
         
 
         <!-- Today's Tasks Section -->
@@ -153,7 +158,7 @@
             <!-- Progress Hari Ini -->
             <div class="bg-white rounded-lg shadow-md p-6 col-span-1">
                 <h2 class="text-lg font-semibold mb-4">Progress Hari Ini</h2>
-        
+            
                 <!-- Progress Circle -->
                 <div class="flex justify-center">
                     <div class="w-48 h-48 relative">
@@ -166,19 +171,19 @@
                                     stroke-dasharray="{{ $todayProgress * 2.83 }}, 283"
                                     class="text-green-600 transition-all duration-1000"/>
                         </svg>
-        
+            
                         <!-- Percentage text inside the circle -->
                         <div class="absolute inset-0 flex items-center justify-center">
                             <span class="text-3xl font-bold text-green-700">{{ $todayProgress }}%</span>
                         </div>
                     </div>
                 </div>
-        
+            
                 <!-- Progress Status (0/0) -->
-                <div class="mt-6 space-y-2 text-center text-sm text-gray-500">
-                    <span class="font-medium">{{ $completedTasks }}/{{ $totalTasks }}</span>
+                <div class="mt-6 space-y-2 text-center text-gray-600">
+                    <span class="text-lg font-semibold">{{ $completedTasks }}/{{ $todayTasksCount }}</span>
                 </div>
-            </div>
+            </div>            
         </div>
         
 
@@ -228,4 +233,6 @@
 
         @include('components.add.modal')
     </div>
+
+    
 @endsection

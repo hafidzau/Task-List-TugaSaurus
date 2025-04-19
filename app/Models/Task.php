@@ -23,6 +23,12 @@ class Task extends Model
         'priority' => 'low'
     ];
 
+    protected $casts = [
+        'start_date' => 'date',
+        'deadline' => 'date',
+    ];
+    
+
 
     // Relasi dengan model User
     public function user()

@@ -363,49 +363,142 @@
             </div>
 
             <!-- Task Distribution -->
-            <div
-                class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Distribusi Tugas</h2>
-                <div class="flex items-center justify-center h-40">
-                    <div class="w-full flex items-end justify-around h-32">
-                        <div class="flex flex-col items-center">
-                            <div class="h-full flex items-end">
-                                <div class="bg-red-500 w-12 rounded-t-lg"
-                                    style="height: {{ ($highPriorityTasks / max($totalTasks, 1)) * 100 }}%"></div>
-                            </div>
-                            <span class="text-xs mt-2 text-gray-600">Tinggi</span>
-                            <span class="text-sm font-medium">{{ $highPriorityTasks }}</span>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="h-full flex items-end">
-                                <div class="bg-yellow-500 w-12 rounded-t-lg"
-                                    style="height: {{ ($mediumPriorityTasks / max($totalTasks, 1)) * 100 }}%"></div>
-                            </div>
-                            <span class="text-xs mt-2 text-gray-600">Sedang</span>
-                            <span class="text-sm font-medium">{{ $mediumPriorityTasks }}</span>
-                        </div>
-                        <div class="flex flex-col items-center">
-                            <div class="h-full flex items-end">
-                                <div class="bg-blue-500 w-12 rounded-t-lg"
-                                    style="height: {{ ($lowPriorityTasks / max($totalTasks, 1)) * 100 }}%"></div>
-                            </div>
-                            <span class="text-xs mt-2 text-gray-600">Rendah</span>
-                            <span class="text-sm font-medium">{{ $lowPriorityTasks }}</span>
+            <div class="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-xl p-8 border border-gray-100 overflow-hidden relative">
+                <!-- Background Pattern -->
+                <div class="absolute top-0 right-0 opacity-5">
+                    <svg width="300" height="300" viewBox="0 0 100 100">
+                        <path d="M0,0 L100,0 L100,100 L0,100 Z" fill="url(#grid-pattern)" />
+                        <defs>
+                            <pattern id="grid-pattern" patternUnits="userSpaceOnUse" width="10" height="10">
+                                <circle cx="5" cy="5" r="1" fill="currentColor" />
+                            </pattern>
+                        </defs>
+                    </svg>
+                </div>
+            
+                <!-- Header Section with Animation -->
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-2xl font-extrabold text-gray-800 flex items-center gap-3 group">
+                        <span class="bg-blue-600 text-white p-2 rounded-lg shadow-md transform group-hover:rotate-6 transition-transform duration-300">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+                            </svg>
+                        </span>
+                        <span class="bg-gradient-to-r from-blue-800 to-indigo-800 bg-clip-text text-transparent">Task Distribution</span>
+                    </h2>
+                    <div class="flex items-center gap-2">
+                        <span class="text-sm bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-2 rounded-full font-semibold shadow-md">
+                            Total: {{ $totalTasks }}
+                        </span>
+                        <div class="bg-blue-50 p-1 rounded-full hidden sm:block">
+                            <button class="text-blue-600 hover:text-blue-800 p-1 rounded-full hover:bg-blue-100 transition-colors">
+                                
+                            </button>
                         </div>
                     </div>
                 </div>
-                <div class="mt-4 pt-4 border-t">
-                    <div class="flex justify-between text-sm text-gray-600">
-                        <span>Kategori dengan tugas terbanyak:</span>
-                        <span class="font-medium">{{ $topCategory ?? 'Tidak ada' }}</span>
+            
+                <!-- Chart Grid Lines -->
+                <div class="relative h-64 mb-6">
+                    <div class="absolute inset-0 flex flex-col justify-between opacity-20 pointer-events-none">
+                        <div class="border-t border-gray-300 w-full"></div>
+                        <div class="border-t border-gray-300 w-full"></div>
+                        <div class="border-t border-gray-300 w-full"></div>
+                        <div class="border-t border-gray-300 w-full"></div>
+                        <div class="border-t border-gray-300 w-full"></div>
+                    </div>
+            
+                    <!-- Bar Chart Section -->
+                    <div class="flex items-end justify-around h-60 px-4 relative z-10">
+                        <!-- High Priority -->
+                        <div class="flex flex-col items-center group">
+                            <div class="tooltip opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-2 bg-red-600 text-white px-3 py-1 rounded text-sm font-medium">
+                                {{ round(($highPriorityTasks / max($totalTasks, 1)) * 100) }}%
+                            </div>
+                            <div class="relative h-56 flex items-end">
+                                <div class="w-16 md:w-20 bg-gradient-to-t from-red-400 to-red-600 rounded-t-xl shadow-lg transition-all duration-500 ease-out group-hover:scale-105 group-hover:from-red-500 group-hover:to-red-700 relative overflow-hidden"
+                                     style="height: {{ ($highPriorityTasks / max($totalTasks, 1)) * 100 }}%;">
+                                    <div class="absolute top-0 left-0 right-0 h-2 bg-white opacity-30 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex flex-col items-center">
+                                <div class="flex items-center gap-1 text-sm text-red-600 font-bold">
+                                    <span class="bg-red-100 p-1 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                        </svg>
+                                    </span>
+                                    High
+                                </div>
+                                <span class="text-lg font-bold text-gray-800 mt-1">{{ $highPriorityTasks }}</span>
+                            </div>
+                        </div>
+            
+                        <!-- Medium Priority -->
+                        <div class="flex flex-col items-center group">
+                            <div class="tooltip opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-2 bg-amber-600 text-white px-3 py-1 rounded text-sm font-medium">
+                                {{ round(($mediumPriorityTasks / max($totalTasks, 1)) * 100) }}%
+                            </div>
+                            <div class="relative h-56 flex items-end">
+                                <div class="w-16 md:w-20 bg-gradient-to-t from-amber-400 to-amber-500 rounded-t-xl shadow-lg transition-all duration-500 ease-out group-hover:scale-105 group-hover:from-amber-500 group-hover:to-amber-600 relative overflow-hidden"
+                                    style="height: {{ ($mediumPriorityTasks / max($totalTasks, 1)) * 100 }}%;">
+                                    <div class="absolute top-0 left-0 right-0 h-2 bg-white opacity-30 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex flex-col items-center">
+                                <div class="flex items-center gap-1 text-sm text-amber-600 font-bold">
+                                    <span class="bg-amber-100 p-1 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                        </svg>
+                                    </span>
+                                    Medium
+                                </div>
+                                <span class="text-lg font-bold text-gray-800 mt-1">{{ $mediumPriorityTasks }}</span>
+                            </div>
+                        </div>
+            
+                        <!-- Low Priority -->
+                        <div class="flex flex-col items-center group">
+                            <div class="tooltip opacity-0 group-hover:opacity-100 transition-opacity duration-300 mb-2 bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium">
+                                {{ round(($lowPriorityTasks / max($totalTasks, 1)) * 100) }}%
+                            </div>
+                            <div class="relative h-56 flex items-end">
+                                <div class="w-16 md:w-20 bg-gradient-to-t from-blue-400 to-blue-600 rounded-t-xl shadow-lg transition-all duration-500 ease-out group-hover:scale-105 group-hover:from-blue-500 group-hover:to-blue-700 relative overflow-hidden"
+                                    style="height: {{ ($lowPriorityTasks / max($totalTasks, 1)) * 100 }}%;">
+                                    <div class="absolute top-0 left-0 right-0 h-2 bg-white opacity-30 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="mt-4 flex flex-col items-center">
+                                <div class="flex items-center gap-1 text-sm text-blue-600 font-bold">
+                                    <span class="bg-blue-100 p-1 rounded-full">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
+                                    Low
+                                </div>
+                                <span class="text-lg font-bold text-gray-800 mt-1">{{ $lowPriorityTasks }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Legend and Info -->
+                <div class="pt-2 border-t border-gray-200">
+                    <div class="flex justify-between items-center text-xs text-gray-500">
+                        <span>Updated: Today</span>
+                        
                     </div>
                 </div>
             </div>
+            
+            
 
             <!-- Upcoming Deadlines -->
             <div
                 class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
-                <h2 class="text-lg font-semibold text-gray-800 mb-4">Deadline Mendatang</h2>
+                <h2 class="text-lg font-semibold text-gray-800 mb-4">Deadline</h2>
 
                 @if (count($upcomingDeadlineTasks) > 0)
                     <div class="space-y-3">
@@ -423,8 +516,8 @@
                                     <p class="font-medium text-gray-800 truncate">{{ $task->title }}</p>
                                     <p class="text-xs text-gray-500">
                                         {{ \Carbon\Carbon::parse($task->deadline)->isPast()
-                                            ? 'Terlambat ' . \Carbon\Carbon::parse($task->deadline)->diffForHumans()
-                                            : 'Dalam ' . \Carbon\Carbon::parse($task->deadline)->diffForHumans() }}
+                                            ? 'Late by ' . \Carbon\Carbon::parse($task->deadline)->diffForHumans()
+                                            : 'Due in ' . \Carbon\Carbon::parse($task->deadline)->diffForHumans() }}
                                     </p>
                                 </div>
                                 <a href="/tasks/{{ $task->id }}" class="text-gray-400 hover:text-gray-600">

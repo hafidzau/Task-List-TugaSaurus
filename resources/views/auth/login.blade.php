@@ -128,28 +128,6 @@
                         Enter the Jurassic Park
                     </button>
                 
-                    <div class="relative flex items-center justify-center mt-8">
-                        <div class="absolute inset-x-0 h-px bg-gray-200"></div>
-                        <div class="relative bg-white px-4 text-xl text-gray-500">or</div>
-                    </div>
-                
-                    <div class="grid grid-cols-1 gap-3 mt-4">
-                        <button type="button"
-                            class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 w-full">
-                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                                <path fill="#4285F4"
-                                    d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                                <path fill="#34A853"
-                                    d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.1v2.85C3.91 20.91 7.66 23 12 23z" />
-                                <path fill="#FBBC05"
-                                    d="M5.84 14.1a7.56 7.56 0 0 1 0-4.2V7.05H2.1a11.97 11.97 0 0 0 0 10.9l3.74-2.85z" />
-                                <path fill="#EA4335"
-                                    d="M12 4.5c1.62 0 3.08.56 4.23 1.66l3.15-3.15A11.91 11.91 0 0 0 12 1c-4.34 0-8.09 2.09-10.08 5.45L5.84 9.3c.87-2.6 3.3-4.53 6.16-4.8z" />
-                            </svg>
-                            Continue with Google
-                        </button>
-                    </div>
-                
                     <p class="text-center text-sm text-gray-600 mt-6">
                         Don't have an account yet?
                         <a href="{{ route('register') }}" class="text-green-600 hover:underline">Join the herd!</a>

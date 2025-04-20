@@ -16,18 +16,15 @@
 
 <section class="grid md:grid-cols-3 gap-6 px-6 py-12 max-w-7xl mx-auto">
     <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up">
-        <img src="/api/placeholder/200/200" alt="Task organization" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-green-700 mb-2">Smart Task Organization</h3>
         <p class="text-green-600">Organize your tasks efficiently with our intuitive dinosaur-themed interface</p>
     </div>
     <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-delay="100">
-        <img src="/api/placeholder/200/200" alt="Productivity" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-green-700 mb-2">Dino Productivity</h3>
         <p class="text-green-600">Boost your task power and stay focused like a T-Rex chasing a goal!</p>
     </div>
     
     <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-lg transition duration-300" data-aos="fade-up" data-aos-delay="200">
-        <img src="/api/placeholder/200/200" alt="Reminders" class="mx-auto mb-4">
         <h3 class="text-xl font-semibold text-green-700 mb-2">Smart Reminders</h3>
         <p class="text-green-600">Never miss a deadline with our T-Rex reminder system that roars when tasks are due</p>
     </div>

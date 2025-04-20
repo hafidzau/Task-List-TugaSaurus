@@ -31,15 +31,15 @@
             <ul class="space-y-2 text-green-200">
                 <li class="flex items-center gap-2">
                     <i data-lucide="mail" class="w-4 h-4"></i>
-                    <a href="mailto:hafidz@example.com" class="underline hover:text-white">hafidz@example.com</a>
+                    <a href="mailto:hafidz@example.com" class="underline hover:text-white">hafidzauliaurrahman357@gmail.com</a>
                 </li>
                 <li class="flex items-center gap-2">
                     <i data-lucide="instagram" class="w-4 h-4"></i>
-                    <a href="https://instagram.com/hafidz" target="_blank" class="underline hover:text-white">hafidz</a>
+                    <a href="https://instagram.com/hafidzau" target="_blank" class="underline hover:text-white">hafidzau</a>
                 </li>
                 <li class="flex items-center gap-2">
                     <i data-lucide="github" class="w-4 h-4"></i>
-                    <a href="https://github.com/hafidzaulia" target="_blank" class="underline hover:text-white">hafidzaulia</a>
+                    <a href="https://github.com/hafidzau" target="_blank" class="underline hover:text-white">hafidzau</a>
                 </li>
             </ul>
         </div>

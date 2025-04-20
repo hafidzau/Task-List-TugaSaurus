@@ -25,7 +25,11 @@ class DashboardController extends Controller
             ->orderBy('deadline')
             ->get();
 
-        $missedTasks = Task::where('deadline', '<', $today)->orderByDesc('deadline')->get();
+        $missedTasks = Task::where('user_id', Auth::id())
+        ->where('deadline', '<', now())
+        ->where('status', false)
+        ->get();
+        
 
         // Tugas hari ini yang sudah selesai
         $todayCompletedTasks = $todayTasks->where('status', 'completed');

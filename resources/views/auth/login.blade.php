@@ -64,16 +64,19 @@
 
                 <form action="{{ route('login') }}" method="POST" class="space-y-6">
                     @csrf
-                    @if ($errors->any())
+                    
+                    @if (session('error'))
                         <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                            {{ session('error') }}
                         </div>
                     @endif
-                
+                    
+                    @if (session('success'))
+                        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+                    
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Email or Username</label>
@@ -134,7 +137,7 @@
                     </div>
                 
                     <div class="grid grid-cols-1 gap-3 mt-4">
-                        <button type="button"
+                        <a href="{{ route('auth.google') }}"
                             class="flex items-center justify-center px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors duration-200 w-full">
                             <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
                                 <path fill="#4285F4"
@@ -147,7 +150,7 @@
                                     d="M12 4.5c1.62 0 3.08.56 4.23 1.66l3.15-3.15A11.91 11.91 0 0 0 12 1c-4.34 0-8.09 2.09-10.08 5.45L5.84 9.3c.87-2.6 3.3-4.53 6.16-4.8z" />
                             </svg>
                             Continue with Google
-                        </button>
+                        </a>
                     </div>
                 
                     <p class="text-center text-sm text-gray-600 mt-6">

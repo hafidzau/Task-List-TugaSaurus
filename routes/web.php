@@ -7,6 +7,7 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\GoogleController;
 
 // Route untuk registrasi dan login
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
@@ -40,4 +41,9 @@ Route::get('/token', function () {
 // Route utama home
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+
 Route::post('/tasks/toggle-status/{id}', [App\Http\Controllers\TaskController::class, 'complete'])->name('tasks.toggle-status');
+
+// Google Login Routes
+Route::get('auth/google', [App\Http\Controllers\GoogleController::class, 'redirectToGoogle'])->name('auth.google');
+Route::get('auth/google/callback', [App\Http\Controllers\GoogleController::class, 'handleGoogleCallback'])->name('auth.google.callback');

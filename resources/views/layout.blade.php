@@ -10,13 +10,13 @@
     @yield('styles')
 </head>
 <body>
-
     <x:layout.navbar></x:layout.navbar>
     <x:layout.alert></x:layout.alert>
 
-    @yield('content')
-
-    @yield('scripts')
+    <div>
+        @yield('content')
+        @yield('scripts')
+    </div>
 
     <x:layout.footer></x:layout.footer>
 </body>

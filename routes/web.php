@@ -39,3 +39,5 @@ Route::get('/token', function () {
 
 // Route utama home
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::post('/tasks/toggle-status/{id}', [App\Http\Controllers\TaskController::class, 'complete'])->name('tasks.toggle-status');

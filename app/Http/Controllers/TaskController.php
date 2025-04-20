@@ -270,5 +270,11 @@ class TaskController extends Controller
         };
     }
 
+    // 🔹 Menampilkan detail tugas
+    public function show($id)
+    {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+        return view('tasks.show', compact('task'));
+    }
     
 }

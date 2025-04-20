@@ -186,6 +186,29 @@
                                                     d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                                             </svg>
                                         </button>
+                                        <!-- Dropdown menu -->
+                                        <div class="dropdown-menu hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border border-gray-100">
+                                            <a href="/tasks/{{ $task->id }}/edit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                                <div class="flex items-center">
+                                                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                                                    </svg>
+                                                    Edit
+                                                </div>
+                                            </a>
+                                            <form action="/tasks/{{ $task->id }}" method="POST" class="block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100" onclick="return confirm('Apakah Anda yakin ingin menghapus tugas ini?')">
+                                                    <div class="flex items-center">
+                                                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                                        </svg>
+                                                        Hapus
+                                                    </div>
+                                                </button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -302,8 +325,8 @@
         <!-- Task Progress and Analytics Section -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-8">
             <!-- Task Completion Progress -->
-            <div
-                class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
+            
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 hover:shadow-md transition-all duration-200">
                 <h2 class="text-lg font-semibold text-gray-800 mb-4">Progress Keseluruhan</h2>
                 <div class="flex justify-center mb-4">
                     <div class="w-40 h-40 relative">
@@ -425,6 +448,43 @@
                 @endif
             </div>
         </div>
+
+
+        <!-- Dropdown menu script -->
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get all dropdown buttons
+                const dropdownButtons = document.querySelectorAll('.dropdown button');
+                
+                // Add click event listener to each button
+                dropdownButtons.forEach(button => {
+                    button.addEventListener('click', function(e) {
+                        e.stopPropagation(); // Prevent event bubbling
+                        
+                        // Find the dropdown menu associated with this button
+                        const dropdownMenu = this.nextElementSibling;
+                        
+                        // Close all other dropdown menus
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            if (menu !== dropdownMenu) {
+                                menu.classList.add('hidden');
+                            }
+                        });
+                        
+                        // Toggle the current dropdown menu
+                        dropdownMenu.classList.toggle('hidden');
+                    });
+                });
+                
+                // Close dropdown when clicking outside
+                document.addEventListener('click', function() {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.classList.add('hidden');
+                    });
+                });
+            });
+        </script>
+
 
 
         <script>
@@ -754,4 +814,9 @@
         </script>
 
 
-    @endsection
+    </div>
+</div>
+
+
+
+@endsection

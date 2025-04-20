@@ -23,28 +23,43 @@ class TaskController extends Controller
         // 🔹 Menampilkan tugas untuk hari ini
         public function today()
         {
-            $tasks = Task::where('user_id', Auth::id())
+            // Ambil tugas yang deadline-nya hari ini dan urutkan berdasarkan waktu terbaru
+            $recentTasks = Task::where('user_id', Auth::id())
                 ->whereDate('deadline', now())
+                ->latest() // Urutkan berdasarkan waktu terbaru
                 ->get();
 
             return view('tasks.today', [
-                'tasks' => $tasks,
-                'totalTugas' => $tasks->count(),
-                'belumSelesai' => $tasks->where('status', 'pending')->count(),
-                'selesai' => $tasks->where('status', 'completed')->count(),
-                'prioritasTinggi' => $tasks->where('priority', 'high')->count(),
+                'recentTasks' => $recentTasks,
+                'totalTugas' => $recentTasks->count(),
+                'belumSelesai' => $recentTasks->where('status', 'pending')->count(),
+                'selesai' => $recentTasks->where('status', 'completed')->count(),
+                'prioritasTinggi' => $recentTasks->where('priority', 'high')->count(),
             ]);
         }
+
+
 
         // 🔹 Menampilkan tugas berdasarkan tanggal dari kalender
         public function showByDate($date)
         {
             $tasks = Task::where('user_id', Auth::id())
                 ->whereDate('deadline', $date)
+                ->when(request('priority'), function ($query) {
+                    $query->where('priority', request('priority'));
+                })
+                ->when(request('status'), function ($query) {
+                    $query->where('status', request('status'));
+                })
+                ->latest()
                 ->get();
 
-            return view('tasks.date', compact('tasks', 'date'));
+            return view('tasks.date', [
+                'tasks' => $tasks,
+                'date' => $date,
+            ]);
         }
+
 
         // 🔹 Menyimpan tugas baru
         public function store(Request $request)
@@ -122,29 +137,36 @@ class TaskController extends Controller
         }
 
 
-
-
         // 🔹 Menampilkan form edit tugas
         public function edit($id)
         {
             $task = Task::where('user_id', Auth::id())->findOrFail($id);
             return view('tasks.edit', compact('task'));
-
-            
         }
 
 
         // 🔹 Menghapus tugas
-        public function destroy($id)
-        {
-            $task = Task::where('user_id', Auth::id())->findOrFail($id);
-            $task->delete();
+    public function destroy($id)
+    {
+        $task = Task::where('user_id', Auth::id())->findOrFail($id);
+        $task->delete();
 
-            return redirect()->back()->with('success', 'Tugas berhasil dihapus!');
-        }
-    
+        return redirect()->back()->with('success', 'Tugas berhasil dihapus!');
+    }
 
-    
+    // TaskController.php
+    public function showDateDetails($date)
+    {
+        $tasks = Task::whereDate('due_date', $date)->get();
+
+        $grouped = [
+            'high' => $tasks->where('priority', 'high'),
+            'medium' => $tasks->where('priority', 'medium'),
+            'low' => $tasks->where('priority', 'low'),
+        ];
+
+        return view('tasks.date-detail', compact('date', 'grouped'));
+    }
 
     // 🔹 Menampilkan statistik dan kalender tugas
     public function tasks()
@@ -216,6 +238,8 @@ class TaskController extends Controller
                     'priority' => $task->priority,
                 ]
             ]);
+
+        
 
         return view('tasks.index', compact(
             'recentTasks',

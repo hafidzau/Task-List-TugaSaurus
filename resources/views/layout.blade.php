@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,11 +14,9 @@
     <x:layout.navbar></x:layout.navbar>
     <x:layout.alert></x:layout.alert>
 
-
     @yield('content')
 
     @yield('scripts')
-
 
     <x:layout.footer></x:layout.footer>
 </body>

@@ -35,7 +35,8 @@
             </div>
 
             <div class="flex justify-end gap-2">
-                <button type="button" onclick="closeModal()" class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
+                <button type="button" onclick="closeModal()"
+                    class="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600">
                     Cancel
                 </button>
                 <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
@@ -47,38 +48,42 @@
 </div>
 
 <script>
-    function openModal(isToday = false) {
+    function getDateFromURL() {
+        const path = window.location.pathname;
+        const match = path.match(/\/tasks\/date\/(\d{4}-\d{2}-\d{2})/);
+        return match ? match[1] : null;
+    }
+
+    function openModal(mode = 'url') {
         document.getElementById('taskModal').classList.remove('hidden');
-        document.getElementById('isTodayTask').value = isToday;
 
-        const deadlineField = document.getElementById('deadlineField');
-        // const startDate = document.getElementById('start_date');
         const deadline = document.getElementById('deadline');
+        const isTodayInput = document.getElementById('isTodayTask');
 
-        if (isToday) {
+        if (mode === 'today') {
             const today = new Date().toISOString().split('T')[0];
             deadline.value = today;
-        } else {
+            isTodayInput.value = 'true';
+        } else if (mode === 'url') {
+            const urlDate = getDateFromURL();
+            if (urlDate) {
+                deadline.value = urlDate;
+            } else {
+                deadline.value = '';
+            }
+            isTodayInput.value = 'false';
+        } else if (mode === 'custom') {
             deadline.value = '';
+            isTodayInput.value = 'false';
         }
     }
 
     function closeModal() {
         document.getElementById('taskModal').classList.add('hidden');
     }
-
-    document.getElementById('toggleExpert').addEventListener('change', function() {
-        const isExpert = this.checked;
-        document.getElementById('expertFields').classList.toggle('hidden', !isExpert);
-
-        if (isExpert) {
-            deadlineField.classList.remove('hidden');
-        } else {
-            if (isTodayTask) {
-                deadlineField.classList.add('hidden');
-            }
-        }
-
-        document.getElementById('toggleDot').classList.toggle('translate-x-5');
-    });
 </script>
+
+
+
+
+
